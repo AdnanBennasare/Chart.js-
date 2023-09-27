@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Getting Started with Chart JS with www.chartjs3.com</title>
+    <style>
+    </style>
+  </head>
+  <body>
+    <div class="chartMenu">
+      <p>WWW.CHARTJS3.COM (Chart JS <span id="chartVersion"></span>)</p>
+    </div>
+    <div class="chartCard">
+      <div class="chartBox">
+        <canvas id="myChart"></canvas>
+      </div>
+    </div>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js/dist/chart.umd.min.js"></script>
+    <script>
+ 
+ const numericData = [10, 25, 5, 35, 15];
+ const levels = {
+  low: { min: 0, max: 10 },
+  medium: { min: 11, max: 20 },
+  high: { min: 21, max: 100 },
+};
+function mapDataToLevels(data, levels) {
+  return data.map(value => {
+    for (const level in levels) {
+      if (value >= levels[level].min && value <= levels[level].max) {
+        return level;
+      }
+    }
+    return 'unknown'; // Handle values outside of defined ranges
+  });
+}
+
+const levelData = mapDataToLevels(numericData, levels);
+console.log(levelData); // ["low", "medium", "low", "high", "medium"]
+
+const ctx = document.getElementById('myChart').getContext('2d');
+
+const chart = new Chart(ctx, {
+  type: 'bar',
+  data: {
+    labels: ['Data Point 1', 'Data Point 2', 'Data Point 3', 'Data Point 4', 'Data Point 5'],
+    datasets: [{
+      label: 'Data Levels',
+      data: levelData, // Use the mapped data here
+      backgroundColor: ['red', 'blue', 'green', 'purple', 'orange'], // Customize colors as needed
+    }],
+  },
+  options: {
+    scales: {
+      y: {
+        beginAtZero: true,
+      },
+    },
+  },
+});
+
+    </script>
+
+  </body>
+</html>
